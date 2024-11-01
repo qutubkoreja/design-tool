@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ultimate Design Tool - Colors & Gradients</title>
+  <style>
+    /* Basic Styling */
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      width: 100vw;
+      overflow: hidden;
+      color: #FFFFFF; /* Set all text to white */
+    }
+
+    /* Video Background */
+    #backgroundVideo {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      filter: brightness(0.5);
+    }
+
+    /* Navigation Bar */
+    .navbar {
+      display: flex;
+      justify-content: center;
+      background-color: rgba(0, 0, 0, 0.9);
+      border-bottom: 2px solid #FF7676; /* Add a border */
+      padding: 10px 20px;
+      position: fixed;
+      width: 100%;
+      z-index: 10;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Add shadow */
+    }
+
+    .navbar a {
+      color: white;
+      margin: 0 20px; /* Adjusted margin */
+      text-decoration: none;
+      font-size: 1.1em;
+      padding: 10px 15px; /* Add padding for better click area */
+      border-radius: 5px; /* Rounded corners */
+      transition: background-color 0.3s, color 0.3s; /* Smooth transitions */
+    }
+
+    .navbar a:hover {
+      background-color: rgba(255, 118, 118, 0.8); /* Hover effect */
+      color: #FFFFFF; /* Maintain white text on hover */
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1, h4 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      color: white;
+    }
+
+    p {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      color: white; /* Set paragraph text to white */
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1.1em;
+      background-color: #FF7676;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      margin: 10px;
+    }
+
+    button:hover {
+      background-color: #FF5252;
+      transform: scale(1.05);
+    }
+
+    /* Slide Styling */
+    .slide {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+      color: #333;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-radius: 10px;
+      overflow: auto;
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    #gradientDisplay, #paletteDisplay {
+      height: 150px;
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      transition: background 0.5s ease;
+    }
+
+    .color-box {
+      padding: 15px;
+      margin: 5px;
+      border-radius: 4px;
+      color: white;
+      font-size: 1.1em;
+      display: inline-block;
+      text-align: center;
+      min-width: 60px;
+      cursor: pointer;
+    }
+
+    /* Media Query for Responsiveness */
+    @media (max-width: 768px) {
+      .navbar a {
+        font-size: 1em; /* Smaller font for mobile */
+        margin: 0 10px; /* Adjust margin for smaller screens */
+      }
+
+      h1 { font-size: 2em; }
+      h4 { font-size: 1.2em; }
+      p, button { font-size: 1em; }
+      #gradientDisplay, #paletteDisplay { height: 120px; }
+      button { padding: 8px 16px; }
+    }
+
+    @media (max-width: 480px) {
+      .navbar a {
+        font-size: 0.9em; /* Further smaller font for mobile */
+        margin: 0 5px; /* Adjust margin for very small screens */
+      }
+
+      h1 { font-size: 1.8em; }
+      h4 { font-size: 1em; }
+      p, button { font-size: 0.9em; }
+      #gradientDisplay, #paletteDisplay { height: 100px; }
+      button { padding: 6px 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<video autoplay muted loop playsinline id="backgroundVideo">
+    <source src="https://videocdn.cdnpk.net/videos/631b2360-d5a9-5a3a-ba11-d358426b6d59/horizontal/previews/clear/large.mp4?token=exp=1730469841~hmac=22055b943d3a64f73858d6405b6b3538d265bbf1ab9a7bec2457604ae9092b08" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+
+<!-- Navigation Bar -->
+<div class="navbar">
+    <a href="#" onclick="showSlide(0)">Welcome</a>
+    <a href="#" onclick="showSlide(1)">Gradient Generator</a>
+    <a href="#" onclick="showSlide(2)">Color Palette</a>
+    <a href="#" onclick="showSlide(3)">Image Color Picker</a>
+</div>
+
+<div class="container">
+  <!-- Welcome Page -->
+  <div class="slide active" id="welcomeSlide">
+    <h1>Welcome to the Ultimate Design Tool!</h1>
+    <p>Get ready to explore colors and gradients like never before!</p>
+    <button onclick="showSlide(1)">Get Started</button>
+  </div>
+
+  <!-- Gradient Generator Slide -->
+  <div class="slide" id="gradientSlide">
+    <h1>Gradient Generator</h1>
+    <p>Create a unique gradient for your design projects!</p>
+    <div id="gradientDisplay"></div>
+    <button onclick="generateGradient()">Generate New Gradient</button>
+    <button id="copyButton" onclick="copyGradient()">Copy Gradient Code</button>
+    <button onclick="showSlide(2)">Next: Color Palette</button>
+    <p id="copyStatus" style="color: #00FF00; display: none;">Gradient copied to clipboard!</p>
+  </div>
+
+  <!-- Color Palette Generator Slide -->
+  <div class="slide" id="paletteSlide">
+    <h1>Color Palette Generator</h1>
+    <p>Generate a harmonious color palette for your project!</p>
+    <div id="paletteDisplay" class="palette-container"></div>
+    <button onclick="generatePalette()">Generate New Palette</button>
+    <button id="copyPaletteButton" onclick="copyPalette()">Copy Palette Colors</button>
+    <button onclick="showSlide(3)">Next: Image Color Picker</button>
+    <p id="paletteCopyStatus" style="color: #00FF00; display: none;">Palette copied to clipboard!</p>
+  </div>
+
+  <!-- Image Color Picker Slide -->
+  <div class="slide" id="imagePickerSlide">
+    <h1>Image Color Picker</h1>
+    <p>Upload an image to pick colors!</p>
+    <input type="file" id="imageUpload" accept="image/*" onchange="loadImage(event)">
+    <div id="colorBoxes" style="margin-top: 20px;"></div>
+  </div>
+</div>
+
+<script>
+  let currentSlide = 0;
+  let currentGradient = '';
+
+  function showSlide(slideIndex) {
+    const slides = document.querySelectorAll('.slide');
+    slides[currentSlide].classList.remove('active');
+    currentSlide = slideIndex;
+    slides[currentSlide].classList.add('active');
+  }
+
+  function generateGradient() {
+    const color1 = `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`;
+    const color2 = `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`;
+    currentGradient = `linear-gradient(135deg, ${color1}, ${color2})`;
+    const gradientDisplay = document.getElementById('gradientDisplay');
+    gradientDisplay.style.background = currentGradient;
+    gradientDisplay.textContent = currentGradient;
+  }
+
+  function copyGradient() {
+    navigator.clipboard.writeText(currentGradient).then(() => {
+      document.getElementById('copyStatus').style.display = 'block';
+      setTimeout(() => { document.getElementById('copyStatus').style.display = 'none'; }, 2000);
+    });
+  }
+
+  function generatePalette() {
+    const paletteDisplay = document.getElementById('paletteDisplay');
+    paletteDisplay.innerHTML = '';
+    for (let i = 0; i < 5; i++) {
+      const color = `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`;
+      const colorBox = document.createElement('div');
+      colorBox.className = 'color-box';
+      colorBox.style.backgroundColor = color;
+      colorBox.textContent = color;
+      colorBox.onclick = function() {
+        navigator.clipboard.writeText(color);
+        alert(`${color} copied to clipboard!`);
+      };
+      paletteDisplay.appendChild(colorBox);
+    }
+    document.getElementById('paletteCopyStatus').style.display = 'none';
+  }
+
+  function copyPalette() {
+    const colors = Array.from(document.querySelectorAll('.color-box')).map(box => box.textContent).join(', ');
+    navigator.clipboard.writeText(colors).then(() => {
+      document.getElementById('paletteCopyStatus').style.display = 'block';
+      setTimeout(() => { document.getElementById('paletteCopyStatus').style.display = 'none'; }, 2000);
+    });
+  }
+
+  function loadImage(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.onload = function() {
+          extractColors(img);
+        };
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function extractColors(img) {
+    const colorBoxes = document.getElementById('colorBoxes');
+    colorBoxes.innerHTML = '';
+    // Simulate color extraction
+    for (let i = 0; i < 5; i++) {
+      const color = `#${Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0')}`;
+      const colorBox = document.createElement('div');
+      colorBox.className = 'color-box';
+      colorBox.style.backgroundColor = color;
+      colorBox.textContent = color;
+      colorBox.onclick = function() {
+        navigator.clipboard.writeText(color);
+        alert(`${color} copied to clipboard!`);
+      };
+      colorBoxes.appendChild(colorBox);
+    }
+  }
+</script>
+
+</body>
+</html>
